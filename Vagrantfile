@@ -5,23 +5,18 @@ MACHINES = {
     :disks    => {
                :sata1 => {
                  :dfile => './sata1.vdi',
-                 :size  => '250', #Mb
+                 :size  => '4024', #Mb
                  :port  => 1 
                 },
                :sata2 => {
                  :dfile => './sata2.vdi',
-                 :size  => '250',
+                 :size  => '4024',
                  :port  => 2
                 },
                :sata3 => {
                  :dfile => './sata3.vdi',
-                 :size  => '250',
+                 :size  => '4024',
                  :port  => 3
-                },
-               :sata4 => {
-                 :dfile => './sata4.vdi',
-                 :size  => '250',
-                 :port  => 4
                 }
     }
   },
@@ -59,17 +54,8 @@ Vagrant.configure("2") do |config|
               end
            end 
       end
-   
-   box.vm.provision "shell", inline: <<-SHELL
-          mkdir -p ~root/.ssh
-          cp ~vagrant/.ssh/auth* ~root/.ssh
-          sh /vagrant/script.sh
-   SHELL
 
-   #config.vm.provision "ansible" do |ansible|
-   #     ansible.playbook = "site.yml"
-   #     ansible.verbose = "vv"
-   #end
+    config.vm.provision "shell", path: "move_working_system_to_raid1.sh"
 
     end
   end
